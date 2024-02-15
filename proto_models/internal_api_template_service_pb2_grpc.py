@@ -25,6 +25,11 @@ class InternalApiTemplateServiceStub(object):
                 request_serializer=internal__api__template__service__pb2.ImageRequest.SerializeToString,
                 response_deserializer=internal__api__template__service__pb2.ImageReply.FromString,
                 )
+        self.InferenceRequest = channel.unary_unary(
+                '/internal_api_template_service.InternalApiTemplateService/InferenceRequest',
+                request_serializer=internal__api__template__service__pb2.ModelInferRequest.SerializeToString,
+                response_deserializer=internal__api__template__service__pb2.ModelInferResponse.FromString,
+                )
 
 
 class InternalApiTemplateServiceServicer(object):
@@ -45,6 +50,13 @@ class InternalApiTemplateServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def InferenceRequest(self, request, context):
+        """KServe photo request
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_InternalApiTemplateServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -57,6 +69,11 @@ def add_InternalApiTemplateServiceServicer_to_server(servicer, server):
                     servicer.InternalApiTemplateImageRequest,
                     request_deserializer=internal__api__template__service__pb2.ImageRequest.FromString,
                     response_serializer=internal__api__template__service__pb2.ImageReply.SerializeToString,
+            ),
+            'InferenceRequest': grpc.unary_unary_rpc_method_handler(
+                    servicer.InferenceRequest,
+                    request_deserializer=internal__api__template__service__pb2.ModelInferRequest.FromString,
+                    response_serializer=internal__api__template__service__pb2.ModelInferResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -100,5 +117,22 @@ class InternalApiTemplateService(object):
         return grpc.experimental.unary_stream(request, target, '/internal_api_template_service.InternalApiTemplateService/InternalApiTemplateImageRequest',
             internal__api__template__service__pb2.ImageRequest.SerializeToString,
             internal__api__template__service__pb2.ImageReply.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def InferenceRequest(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/internal_api_template_service.InternalApiTemplateService/InferenceRequest',
+            internal__api__template__service__pb2.ModelInferRequest.SerializeToString,
+            internal__api__template__service__pb2.ModelInferResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

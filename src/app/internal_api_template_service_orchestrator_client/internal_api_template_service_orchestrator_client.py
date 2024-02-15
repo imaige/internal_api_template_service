@@ -1,6 +1,6 @@
 from ...libraries.logging_file_format import configure_logger
 from .template_basic_request import template_request
-from .template_image_request import template_image_request
+from .template_image_request import template_image_request, template_image_tensor_request
 from proto_models.internal_api_template_service_pb2 import (
     ImageRequest, ImageReply, TemplateRequest, TemplateReply
 )
@@ -37,6 +37,13 @@ async def run(func_name: str, request_obj: any, request_destination: str):
             logger.info(f'Orchestrator making template image request to port {request_destination}')
             destination_tls_cert_path_var = 'k8s'
             await template_image_request(None, request_destination.strip(), destination_tls_cert_path_var)
+
+        case "ai_image_request":
+            # logger.info(f'Orchestrator making template image request to port {getenv("GRPC_ACCESS_PORT")}')
+            # await template_image_request(None, getenv("GRPC_ACCESS_PORT").strip())
+            logger.info(f'Orchestrator making ai image request to port {request_destination}')
+            destination_tls_cert_path_var = 'k8s'
+            await template_image_tensor_request(None, request_destination.strip(), destination_tls_cert_path_var)
 
 
 
