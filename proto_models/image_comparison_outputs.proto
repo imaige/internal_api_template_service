@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+
+service InternalApiTemplateService {
+  // Basic request
+  rpc InternalApiTemplateRequest (ImageComparisonOutput) returns (StatusResponse) {}
+}
+
+message StatusResponse {
+  string message = 1;
+}
+
+message ImageComparisonOutput {
+    string model_name = 1;
+    string id = 2;
+    string name = 3;
+    string datatype = 4;
+    int32 shape = 5;
+    repeated bytes contents = 6;
+}
